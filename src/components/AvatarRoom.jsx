@@ -31,7 +31,7 @@ function Model({ url }) {
   }
 }
 
-function FallbackModel({ skinColor, hairColor, familyCount, gender }) {
+function SimpleAvatar({ skinColor }) {
   return (
     <group position={[0, -0.5, 0]}>
       {/* Body */}
@@ -44,18 +44,20 @@ function FallbackModel({ skinColor, hairColor, familyCount, gender }) {
         <boxGeometry args={[1, 0.2, 1]} />
         <meshStandardMaterial color="#1e3a8a" />
       </mesh>
+    </group>
+  );
+}
+
+function FallbackModel({ skinColor, hairColor, familyCount, gender }) {
+  return (
+    <group>
+      <SimpleAvatar skinColor={skinColor} />
       {/* Family members */}
       {Array.from({ length: familyCount }).map((_, idx) => (
         <group key={idx} position={[ (idx + 1) * 1.5, 0, 0]}>
-          <Model url={AVATAR_URLS[gender] || AVATAR_URLS.male} />
+          <SimpleAvatar skinColor={skinColor} />
         </group>
       ))}
-
-      {/* Body */}
-      <mesh position={[0, 0.5, 0]}>
-        <capsuleGeometry args={[0.4, 1, 4, 16]} />
-        <meshStandardMaterial color={skinColor} />
-      </mesh>
     </group>
   );
 }
@@ -91,6 +93,11 @@ export default function AvatarRoom({ cityVibe = 'default', gender = 'male', isSi
         
         <Suspense fallback={<FallbackModel skinColor={skinColor} hairColor={hairColor} familyCount={familyCount} gender={gender} />}>
           <Model url={AVATAR_URLS[gender] || AVATAR_URLS.male} />
+          {Array.from({ length: familyCount }).map((_, idx) => (
+            <group key={idx} position={[ (idx + 1) * 1.5, 0, 0]}>
+              <Model url={AVATAR_URLS[gender] || AVATAR_URLS.male} />
+            </group>
+          ))}
           <Environment preset={theme.env} />
           <ContactShadows 
             position={[0, -2.5, 0]} 
