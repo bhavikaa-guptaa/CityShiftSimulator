@@ -3,14 +3,6 @@
 
 > *"What if I moved there?"* — An AI-powered life simulator that lets you explore what your life would look like in any city on Earth.
 
-[![Live Demo](https://img.shields.io/badge/Live%20Demo-GitHub%20Pages-blue?style=for-the-badge)](https://bhavikaa-guptaa.github.io/CityShiftSimulator/)
-[![React](https://img.shields.io/badge/React-18-61DAFB?style=flat-square&logo=react)](https://react.dev/)
-[![Vite](https://img.shields.io/badge/Vite-4-646CFF?style=flat-square&logo=vite)](https://vitejs.dev/)
-[![Three.js](https://img.shields.io/badge/Three.js-r184-black?style=flat-square&logo=threedotjs)](https://threejs.org/)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind-3-38BDF8?style=flat-square&logo=tailwindcss)](https://tailwindcss.com/)
-
----
-
 ## ✨ Features
 
 - **AI-Generated Life Simulations** — Enter any city and get a rich, narrative simulation of your daily life there: income, rent, commute, lifestyle, and more.
