@@ -54,7 +54,7 @@ function FallbackModel({ skinColor, hairColor, familyCount, gender }) {
       <SimpleAvatar skinColor={skinColor} />
       {/* Family members */}
       {Array.from({ length: familyCount }).map((_, idx) => (
-        <group key={idx} position={[ (idx + 1) * 1.5, 0, 0]}>
+        <group key={idx} position={[(idx + 1) * 1.5, 0, 0]}>
           <SimpleAvatar skinColor={skinColor} />
         </group>
       ))}
@@ -62,7 +62,18 @@ function FallbackModel({ skinColor, hairColor, familyCount, gender }) {
   );
 }
 
-export default function AvatarRoom({ cityVibe = 'default', gender = 'male', isSimMode = false, currentScene = 'default', characterName = 'User', status = 'online', hairColor = '#000000', skinColor = '#ffe0bd', familyCount = 0, familyTags = '' }) {
+export default function AvatarRoom({
+  cityVibe = 'default',
+  gender = 'male',
+  isSimMode = false,
+  currentScene = 'default',
+  characterName = 'User',
+  status = 'online',
+  hairColor = '#000000',
+  skinColor = '#ffe0bd',
+  familyCount = 0,
+  familyTags = ''
+}) {
   // Define lighting presets based on city vibes and scenes
   const baseThemes = {
     tokyo: { color: '#6366f1', intensity: 2, env: 'city' },
@@ -78,46 +89,55 @@ export default function AvatarRoom({ cityVibe = 'default', gender = 'male', isSi
     default: baseThemes[cityVibe] || baseThemes.default
   };
 
-  const theme = isSimMode ? (simsScenes[currentScene] || simsScenes.default) : (baseThemes[cityVibe] || baseThemes.default);
+  const theme = isSimMode
+    ? (simsScenes[currentScene] || simsScenes.default)
+    : (baseThemes[cityVibe] || baseThemes.default);
 
   return (
     <div className="w-full h-[500px] relative rounded-[3rem] overflow-hidden bg-midnight-900 border border-white/5 shadow-inner">
       <div className="absolute inset-0 z-0 opacity-20">
         <div className={`w-full h-full bg-gradient-to-b from-transparent to-${theme.color}/10`} />
       </div>
-      
+
       <Canvas camera={{ position: [0, 0, 5], fov: 40 }} shadows>
         <ambientLight intensity={0.5} />
         <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} intensity={1} castShadow />
         <pointLight position={[-10, -10, -10]} color={theme.color} intensity={theme.intensity} />
-        
-        <Suspense fallback={<FallbackModel skinColor={skinColor} hairColor={hairColor} familyCount={familyCount} gender={gender} />}>
+
+        <Suspense fallback={
+          <FallbackModel
+            skinColor={skinColor}
+            hairColor={hairColor}
+            familyCount={familyCount}
+            gender={gender}
+          />
+        }>
           <Model url={AVATAR_URLS[gender] || AVATAR_URLS.male} />
           {Array.from({ length: familyCount }).map((_, idx) => (
-            <group key={idx} position={[ (idx + 1) * 1.5, 0, 0]}>
+            <group key={idx} position={[(idx + 1) * 1.5, 0, 0]}>
               <Model url={AVATAR_URLS[gender] || AVATAR_URLS.male} />
             </group>
           ))}
           <Environment preset={theme.env} />
-          <ContactShadows 
-            position={[0, -2.5, 0]} 
-            opacity={0.4} 
-            scale={10} 
-            blur={2} 
-            far={4} 
+          <ContactShadows
+            position={[0, -2.5, 0]}
+            opacity={0.4}
+            scale={10}
+            blur={2}
+            far={4}
           />
         </Suspense>
 
-        <OrbitControls 
-          enableZoom={false} 
-          enablePan={false} 
-          minPolarAngle={Math.PI / 2.2} 
-          maxPolarAngle={Math.PI / 2} 
+        <OrbitControls
+          enableZoom={false}
+          enablePan={false}
+          minPolarAngle={Math.PI / 2.2}
+          maxPolarAngle={Math.PI / 2}
         />
       </Canvas>
 
       <div className="absolute top-10 left-10 z-10">
-         <div className="flex items-center gap-2 bg-black/40 backdrop-blur-xl px-4 py-2 rounded-full border border-white/10">
+        <div className="flex items-center gap-2 bg-black/40 backdrop-blur-xl px-4 py-2 rounded-full border border-white/10">
           <div className="w-2 h-2 rounded-full bg-accent-blue animate-pulse" />
           <span className="text-[10px] font-display tracking-[0.2em] text-white uppercase">3D Visualization Active</span>
         </div>
